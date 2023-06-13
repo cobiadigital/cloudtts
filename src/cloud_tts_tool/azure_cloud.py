@@ -2,8 +2,9 @@ import azure.cognitiveservices.speech as speechsdk
 import keyring
 import time
 
-def load_azure_client(service_region):
+def load_azure_client():
     subscription_key = keyring.get_password("azure_tts","azure_subscription_key")
+    service_region= keyring.get_password("azure_tts","azure_service_region")
     speech_config = speechsdk.SpeechConfig(subscription=subscription_key, region=service_region)
     speech_config.set_speech_synthesis_output_format(speechsdk.SpeechSynthesisOutputFormat.Audio48Khz96KBitRateMonoMp3)
     print('speech client loaded ' + service_region)
@@ -12,18 +13,22 @@ def load_azure_client(service_region):
 def get_azure_voices(azure_client):
     voices_result = azure_client.get_voices_async().get()
     voices_list = []
-    locales = ['en-US', 'en-GB', 'en-AU', 'en-ZN', 'en-IE']
-    for voice in voices_result.voices:
-        for locale in locales:
-            if voice.locale == locale:
-                voices_list.append(tuple((voice.short_name, voice.short_name)))
+    for n, voice in enumerate(voices_result.voices):
+        voices_list.append(dict({
+            "id": n,
+            "name": voice.short_name,
+            "loc": voice.locale,
+            "gender": voice.gender.name,
+            "styles": voice.style_list
+             }
+        ))
     return(voices_list)
 
-def azure_tts(speech_client, azure_region, azure_voice, text_blocks):
+def azure_tts(azure_client, text_blocks):
     audio_data_list = []
     for n, text_block in enumerate(text_blocks):
         print(f'Text block {n} of {len(text_blocks)}')
-        result = speech_client.speak_ssml_async(text_block).get()
+        result = azure_client.speak_ssml_async(text_block).get()
         if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
             # print(text_block)
             # print("Speech synthesized for text")

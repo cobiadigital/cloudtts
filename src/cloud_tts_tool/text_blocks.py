@@ -1,24 +1,30 @@
 
-def make_text_blocks(text, voice, **kwargs):
+def make_text_blocks(text, **kwargs):
     rest = text
     style = ""
     end_style = ""
+    voice_tag = ""
+    end_voice_tag = ""
+    if "voice" in kwargs:
+        voice_tag = f'<voice name="{kwargs["voice"]}">'
+        end_voice_tag = "</voice>"
+
     if "style" in kwargs:
         style = f'<mstts:express-as style="{kwargs["style"]}">'
-        end_style = "</mstts:express-as>"
+        end_style = '</mstts:express-as>'
 
     text_blocks = []
     intro_ssml = f'''
                     <speak xmlns="http://www.w3.org/2001/10/synthesis" 
                         xmlns:mstts="http://www.w3.org/2001/mstts" 
                         xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
-                    <voice name="{voice}">
-                        <prosody rate="medium" pitch="medium">
+                    {voice_tag}
+                        <prosody rate="medium">
                             {style}'''
     ending_ssml = f'''
                 {end_style}
             </prosody>
-        </voice>
+        {end_voice_tag}
     </speak>
                 '''
     while (len(rest) > 3000):

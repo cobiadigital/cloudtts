@@ -29,13 +29,18 @@ def example_text():
     """
 
 def make_tts(text =example_text(), platform="google", voice="en-US-Wavenet-A", **kwargs):
-    text_blocks = make_text_blocks(text, voice)
     if platform == "google":
+        text_blocks = make_text_blocks(text, voice=voice)
         google_client = load_google_client()
         return google_tts(google_client, voice, text_blocks, **kwargs)
     elif platform == "aws":
+        text_blocks = make_text_blocks(text)
         aws_client = load_aws_client()
-        return aws_tts(text_blocks, aws_client, voice, kwargs['azure_engine'])
+        engine = "neural"
+        if kwargs["engine"]:
+            engine = kwargs["engine"]
+        return aws_tts(text_blocks, aws_client, voice, engine=engine)
     elif platform == "azure":
+        text_blocks = make_text_blocks(text, voice=voice, **kwargs)
         azure_client = load_azure_client()
-        return azure_tts(azure_client, kwargs["azure_region"], voice, text_blocks)
+        return azure_tts(azure_client, text_blocks)
