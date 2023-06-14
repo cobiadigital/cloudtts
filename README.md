@@ -9,9 +9,9 @@ https://cloud.google.com/iam/docs/service-accounts-create
 ```python
 #python console
 import keyring
-keyring.set_password("cloud_tts", "google_private_key_id", "<GOOGLE_PRIVATE_KEY_ID_FROM_JSON>")
-keyring.set_password("cloud_tts", "google_private_key", "<GOOGLE_PRIVATE_KEY_FROM_JSON>")
-keyring.set_password("cloud_tts", "google_client_email", "<GOOGLE_CLIENT_EMAIL>")
+keyring.set_password("google_tts", "google_private_key_id", "<GOOGLE_PRIVATE_KEY_ID_FROM_JSON>")
+keyring.set_password("google_tts", "google_private_key", "<GOOGLE_PRIVATE_KEY_FROM_JSON>")
+keyring.set_password("google_tts", "google_client_email", "<GOOGLE_CLIENT_EMAIL>")
 ```
 The other items don't appear to matter.
 
