@@ -20,7 +20,8 @@ def make_text_blocks(text, **kwargs):
                         xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
                     {voice_tag}
                         <prosody rate="medium">
-                            {style}'''
+                            {style}
+                            <p>'''
     ending_ssml = f'''
                 {end_style}
             </prosody>
