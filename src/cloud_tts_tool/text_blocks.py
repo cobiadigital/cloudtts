@@ -21,7 +21,7 @@ def make_text_blocks(text, **kwargs):
                     {voice_tag}
                         <prosody rate="medium">
                             {style}
-                            <p>'''
+                            '''
     ending_ssml = f'''
                 {end_style}
             </prosody>
@@ -35,7 +35,7 @@ def make_text_blocks(text, **kwargs):
             end = rest.rfind(". ", 0, 3000)
             text_block = rest[begin:end + 1]
             rest = rest[end + 1:]
-            text_blocks.append(intro_ssml + text_block + "</p>" + ending_ssml)
+            text_blocks.append(intro_ssml + "<p>" + text_block + "</p>" + ending_ssml)
             rest = "<p>" + rest
         else:
             text_block = rest[begin:end + 4]
