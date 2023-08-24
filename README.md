@@ -1,4 +1,4 @@
-# Cloud TTS
+# Cloud TTS Tool
 
 This package is in development but will allow you to easily connect to a variety of text to speach apis.
 
@@ -59,7 +59,7 @@ keyring.set_password("azure_tts", "azure_region", "<AZURE_REGION>")
 
 ```python
 import keyring
-from cloud_tts import get_voices
+from cloud_tts_tool import get_voices
 
 platform = "google" # or "aws" or "azure"
 voice_list = get_voices(platform)
@@ -72,7 +72,7 @@ for voice in voice_list:
 Send text to cloud
 
 ```python
-from cloud_tts import make_tts, example_text
+from cloud_tts_tool import make_tts, example_text
 
 audio_content = make_tts(text =example_text(), voice="en-US-Wavenet-A", platform="google", loc="en_US", gender="FEMALE")
 
